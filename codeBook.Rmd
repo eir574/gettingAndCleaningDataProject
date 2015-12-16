@@ -1,0 +1,54 @@
+---
+title: "Getting and Cleaning Data Course Project"
+output: html_document
+---
+# Introduction
+The data set describes data from a Samsung Galaxy S smartphone accelerometer. Data were collected from various subjects engaging in various activities. The data are described more fully below.
+
+## Data source
+* Data were originally obtained here: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+* Original data descriptions: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
+
+## Data set description
+From :
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
+
+# Data transformation: Cleaning the data
+* For both the train and test directories:
+    + Read in features (train/X_train.txt or test/X_test.txt) and apply the names in features.txt. These features are the accelerometer measurements for the activities undertaken by the subjects
+    + Read in the activities (train/y_train.txt or test/y_test.txt). Each line of this file gives the activity for the corresponding line in X_train.txt or X_test.txt.
+    + Convert the activity indices to factors as defined in activity_names.txt. This assigns a human-readable activity name (e.g. "WALKABLE") in place of indices (e.g. 1)
+    + Create a data frame that combines the subject, the activity, and the feature values
+* Concatenate the training and test data sets created in the above steps to create one data set.
+* Retain only those features that are the mean or the standard deviation of the given observation.
+* Clean up column names: remove parentheses, convert abbreviations to complete words, and remove obvious typos (e.g. BodyBody becomes Body)
+* Compute the mean of each observation over each unique combination of subject and activity
+  
+# Observations: the features
+* timeBodyAcceleration-mean and -stdev (in -X, -Y, and -Z)
+* timeGravityAcceleration-mean and -stdev (in -X, -Y, and -Z)
+* timeBodyAccelerationJerk-mean and -stdev (in -X, -Y, and -Z)
+* timeBodyGyroscope-mean and -stdev (in -X, -Y, and -Z)
+* timeBodyGyroscopeJerk-mean and -stdev (in -X, -Y, and -Z)
+* timeBodyAccelerationMagnitude-mean and -stdev 
+* timeGravityAccelerationMagnitude-mean and -stdev
+* timeBodyAccelerationJerkMagnitude-mean and -stdev
+* timeBodyGyroscopeMagnitude-mean and -stdev
+* timeBodyGyroscopeJerkMagnitude-mean and -stdev
+* frequencyBodyAcceleration-mean and -stdev (in -X, -Y, and -Z)
+* frequencyBodyAccelerationJerk-mean and -stdev (in -X, -Y and -Z)
+* frequencyBodyGyroscope-mean and -stdev (in -X, -Y, and -Z)
+* frequencyBodyAccelerationMagnitude-mean and -stdev
+* frequencyBodyAccelerationJerkMagnitude-mean and -stdev
+* frequencyBodyGyroscopeMagnitude-mean and -stdev
+* frequencyBodyGyroscopeJerkMagnitude-mean and -stdev
+
+# Activities:
+* WALKING: subject was walking during the test
+* WALKING_UPSTAIRS: subject was walking upstairs during the test
+* WALKING_DOWNSTAIRS: subject was walking downstairs during the test
+* SITTING: subject was sitting down during the test
+* STANDING: subject was standing during the test
+* LAYING: subject was lying down during the test
