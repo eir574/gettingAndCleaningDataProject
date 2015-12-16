@@ -45,18 +45,42 @@ readData <- function(dataDirectory, datasetName) {
   #Activities are currently represented as integers. Convert them to factors with descriptive names
   activities<-factor(activities$activity,levels=1:length(activityNames$activity), labels=activityNames$activity)
  
-  #Create vector with the name of this dataset
-  datasetNames<-data.frame(dataset=rep(datasetName, dim(features)[1]))
-  
+
   #Create the full data frame
-  data<- cbind(dataset=datasetNames, activity=activities,subjects,features) 
+  data<- cbind(activity=activities,subjects,features) 
   data
 }
 
 ##First, read in features)
-dataDir <- "UCI HAR Dataset"
+dataDir <- "./"
 training <- readData(dataDir, "train")
 test <- readData(dataDir, "test")
 
 #Merge the data
 data <- rbind(training, test)
+
+#Extract only data set, subject, activity, means, and stdevs
+logicalVector <- grepl("subject",colNames) | grepl("activity",colNames) | (grepl("mean",colNames) & !grepl("meanFreq",colNames)) | grepl("std",colNames)
+desiredColumns <- colNames[logicalVector]
+data <- subset(data,,desiredColumns)
+
+
+#Clean up column names
+colNames <- colnames(data)
+colNames <- gsub("\\(\\)", "", colNames) #remove parens
+colNames <- gsub("-std", "-stdev", colNames) #rename std to stdev
+colNames <- gsub("Acc","Acceleration", colNames) #Acc is short for Acceleration
+colNames <- gsub("Mag", "Magnitude", colNames) #Mag is short for Magnitude
+colNames <- gsub("Gyro", "Gyroscope", colNames) #Gyro is short for Gyroscop
+colNames <- gsub("^t","time",colNames) #t at the beginning is short for time
+colNames <- gsub("^f", "frequency", colNames) #f at the beginning is short for frequency
+colNames <- gsub("BodyBody", "Body", colNames) #some column names have Body twice
+
+colnames(data) <- colNames
+
+#Now need to find the mean by each combination of subject and activity
+#tidyData <- aggregate(data[,!(names(data) %in% c("subject","activity"))], 
+              #        by=list(subject=data$subject, activity=data$activity), mean)
+
+#Write out the result
+#write.table(format(tidyData, scientific=T), "tidyData.tsv", row.names=F, col.names=T)
