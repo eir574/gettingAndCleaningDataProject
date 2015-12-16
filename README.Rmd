@@ -1,0 +1,7 @@
+---
+title: "README"
+output: html_document
+---
+To run run_analysis.R, you must first download the data from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip. The files contained therein (everything underneath the top level directory) must be in your current working directory.
+
+Type source("run_analysis.R") to run the script. It will read in the data and take the mean of all mean and standard deviation features, grouped by unique combinations of activity and subject. The output are written to a text file called "tidyData.tsv"
